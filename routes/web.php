@@ -21,8 +21,10 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 #----------------------------------------------------------------------
 
 Route::post('/prescriptions', [PrescriptionController::class, 'store'])->name('prescriptions.store');
-
+Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
 Route::get('/prescriptions/create', [PrescriptionController::class, 'create'])->name('prescriptions.create');
+Route::get('/prescriptions/{id}', [PrescriptionController::class, 'show'])->name('prescriptions.show');
+
 #----------------------------------------------------------------------
 Route::get('/patienten/create', [PatientController::class, 'create'])->name('patienten.create');
 Route::post('/patients', [PatientController::class, 'store'])->name('patients.store');

@@ -17,11 +17,6 @@
     </div>
 
     <div class="form-group">
-        <label for="img">Bild:</label>
-        <input type="file" name="img" id="img" class="form-control-file" required>
-    </div>
-
-    <div class="form-group">
         <label for="krankenkasse">Krankenkasse:</label>
         <input type="text" name="krankenkasse" id="krankenkasse" class="form-control" required>
     </div>

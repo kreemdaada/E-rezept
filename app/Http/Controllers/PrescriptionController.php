@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prescription;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\QrCode;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 
 class PrescriptionController extends Controller
 {
@@ -22,7 +21,7 @@ class PrescriptionController extends Controller
         return view('rezept.create');
     }
 
-        public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -33,30 +32,31 @@ class PrescriptionController extends Controller
             'medikament' => 'required|string',
             'diagnose' => 'required|string',
         ]);
-        
+    
+        // Verschreibung in der Datenbank speichern
         $prescription = Prescription::create($request->all());
+    
+        // QR-Code für die neu erstellte Verschreibung generieren und anzeigen
+        return redirect()->route('prescriptions.show', $prescription->id);
+    }
+    
+    public function show($id)
+    {
+        // Daten für den QR-Code aus der Datenbank holen
+        $prescription = Prescription::findOrFail($id);
         $formData = json_encode($prescription->toArray());
-       
-        Log::info('QR Code Data: ' . $formData);
 
-        
-
+        // QR-Code erstellen
         $qrCode = new QrCode($formData);
+
+        // QR-Code in eine Datei schreiben
         $writer = new PngWriter();
         $result = $writer->write($qrCode);
-        
-        // Überprüfen, ob das Schreiben des QR-Codes erfolgreich war
-        if ($result !== null) {
-            $qrCodePath = 'qrcodes/'.$prescription->id.'.png';
-            $pngData = $result->getString(); // Wir verwenden getString(), um den PNG-Inhalt abzurufen
-            
-            // Speichern des PNG-Datenstroms
-            Storage::put($qrCodePath, $pngData);
-        
-            return redirect()->back()->with('success', 'Prescription created successfully.');
-        } else {
-            // Fehlerbehandlung, falls das Schreiben des QR-Codes fehlschlägt
-            return redirect()->back()->with('error', 'Failed to generate QR code.');
-        }
+
+        // QR-Code als Antwort senden
+        return Response::make($result->getString(), 200, [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'inline; filename="qrcode.png"',
+        ]);
     }
 }

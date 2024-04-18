@@ -1,4 +1,4 @@
-<!-- resources/views/prescriptions/index.blade.php -->
+<!-- resources/views/rezept/index.blade.php -->
 
 @extends('layouts.app')
 
@@ -9,8 +9,10 @@
                 <h1>Prescriptions</h1>
                 <ul>
                     @foreach($prescriptions as $prescription)
-                        <li>{{ $prescription->name }}</li>
-                        <!-- Hier weitere Felder der Verschreibung anzeigen -->
+                        <li>
+                            {{ $prescription->name }}
+                            <a href="{{ route('prescriptions.show', $prescription->id) }}">QR-Code anzeigen</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
