@@ -2,11 +2,6 @@
     @csrf
 
     <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" class="form-control" required>
-    </div>
-
-    <div class="form-group">
         <label for="vorname">Vorname:</label>
         <input type="text" name="vorname" id="vorname" class="form-control" required>
     </div>
@@ -36,10 +31,14 @@
         <input type="text" name="versicherungsnummer" id="versicherungsnummer" class="form-control" required>
     </div>
 
-    <div class="form-group">
-        <label for="beschreibung">Beschreibung:</label>
-        <textarea name="beschreibung" id="beschreibung" class="form-control" rows="3" required></textarea>
-    </div>
+    <label for="krankenkasse">Krankenkasse:</label>
+    <select name="krankenkasse" id="krankenkasse" class="form-control" required>
+        @foreach($krankenkassen as $krankenkasse)
+            <option value="{{ $krankenkasse->id }}">{{ $krankenkasse->name }}</option>
+        @endforeach
+    </select>
+
+
 
     <button type="submit" class="btn btn-primary">Neuen Patienten anlegen</button>
 </form>

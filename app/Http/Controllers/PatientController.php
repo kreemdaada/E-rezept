@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PatientController extends Controller
 {
+
     /**
      * Zeigt das Formular zur Erstellung eines neuen Patienten an.
      *
@@ -14,7 +17,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patienten.create');
+        $krankenkassen = DB::table('insurance_numbers')->get();
+        return view('patienten.create', ['krankenkassen' => $krankenkassen]);
     }
 
     /**
@@ -27,29 +31,28 @@ class PatientController extends Controller
     {
         // Validierung der Eingaben
         $request->validate([
-            'name' => 'required|string|max:255',
             'vorname' => 'required|string|max:255',
             'email' => 'required|email|unique:patients,email',
             'nachname' => 'required|string|max:255',
             'geburtsdatum' => 'required|date',
             'adresse' => 'required|string|max:255',
             'versicherungsnummer' => 'required|string|max:255|unique:patients,versicherungsnummer',
-            'notizen' => 'nullable|string',
+            'krankenkasse' => 'required|string|max:255', // Hinzufügen der Validierung für die Krankenkasse
         ]);
-
+    
         // Speichern der Daten in der Datenbank
         Patient::create([
-            'name' => $request->name,
             'vorname' => $request->vorname,
             'email' => $request->email,
             'nachname' => $request->nachname,
             'geburtsdatum' => $request->geburtsdatum,
             'adresse' => $request->adresse,
             'versicherungsnummer' => $request->versicherungsnummer,
-            'notizen' => $request->notizen,
+            'krankenkasse' => $request->krankenkasse, // Hinzufügen der Krankenkasse zum Speichern
         ]);
-
+    
         // Erfolgsnachricht oder Weiterleitung
-        return redirect()->route('patienten.create')->with('success', 'Patient erfolgreich erstellt.');
+        return redirect()->route('home')->with('success', 'Patient erfolgreich erstellt.');
     }
+    
 }

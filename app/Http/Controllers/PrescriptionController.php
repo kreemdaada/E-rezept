@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prescription;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\QrCode;
@@ -33,12 +34,31 @@ class PrescriptionController extends Controller
             'diagnose' => 'required|string',
         ]);
     
-        // Verschreibung in der Datenbank speichern
-        $prescription = Prescription::create($request->all());
+        // Patienten anhand der Versicherungsnummer finden
+        $patient = Patient::where('versicherungsnummer', $request->versicherungsnummer)->first();
+
     
-        // QR-Code für die neu erstellte Verschreibung generieren und anzeigen
-        return redirect()->route('prescriptions.show', $prescription->id);
+        if ($patient) {
+            // Verschreibung in der Datenbank speichern und patient_id hinzufügen
+            $prescription = Prescription::create([
+                'name' => $request->name,
+                'vorname' => $request->vorname,
+                'versicherungsnummer' => $request->versicherungsnummer,
+                'krankenkasse' => $request->krankenkasse,
+                'neue_termin' => $request->neue_termin,
+                'medikament' => $request->medikament,
+                'diagnose' => $request->diagnose,
+                'patient_id' => $patient->id,
+            ]);
+    
+            // QR-Code für die neu erstellte Verschreibung generieren und anzeigen
+            return redirect()->route('prescriptions.show', $prescription->id);
+        } else {
+            // Wenn der Patient nicht gefunden wurde, Fehlermeldung anzeigen
+            return redirect()->back()->withErrors(['vorname' => 'Patient nicht gefunden.']);
+        }
     }
+    
     
     public function show($id)
     {

@@ -2,7 +2,7 @@
     @csrf
 
     <div class="form-group">
-        <label for="name">Name:</label>
+        <label for="name">Nachname:</label>
         <input type="text" name="name" id="name" class="form-control" required>
     </div>
 
@@ -35,6 +35,17 @@
         <label for="diagnose">Diagnose:</label>
         <textarea name="diagnose" id="diagnose" class="form-control" rows="3" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Rezept erstellen</button>
+
+    <div class="form-group">
+        <label for="send_to">Senden an:</label><br>
+        <input type="checkbox" id="send_to_patient" name="send_to[]" value="patient">
+        <label for="send_to_patient">Patient</label><br>
+        <input type="checkbox" id="send_to_insurance" name="send_to[]" value="insurance">
+        <label for="send_to_insurance">Krankenkasse</label><br>
+        <input type="checkbox" id="send_to_pharmacy" name="send_to[]" value="pharmacy">
+        <label for="send_to_pharmacy">Apotheke</label><br>
+    </div>
+
+    <button type="submit" class="btn btn-primary">QR-Code generieren und senden</button>
 </form>
 

@@ -12,20 +12,30 @@ class AuthController extends Controller
     // Zeige das Registrierungsformular an
     public function showRegistrationForm()
     {
+        // Standard-Krankenkassen-Daten
+        $defaultKrankenkassen = [
+            ['name' => 'AOK'],
+            ['name' => 'TK'],
+            ['name' => 'Barmer'],
+        ];
+
+        // Rollen abrufen
         $roles = Role::all();
-        return view('auth.register', compact('roles'));
+        
+        // Registrierungsformular mit Rollen und Standard-Krankenkassen-Daten anzeigen
+        return view('auth.register', compact('defaultKrankenkassen'));
     }
 
     // Verarbeite die Registrierungsanfrage
     public function register(Request $request)
     {
-    // Validierung der Eingaben
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-        'role' => 'required|exists:roles,name',
-    ]);
+        // Validierung der Eingaben
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,name',
+        ]);
 
     // Benutzer erstellen
     $role = Role::where('name', $request->role)->first();

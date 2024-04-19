@@ -15,5 +15,13 @@ class Prescription extends Model
         'neue_termin',
         'medikament',
         'diagnose',
+        'patient_id',
     ];
+
+
+    public function patient()
+{
+    return $this->hasOne(Patient::class);
+}
+
 }
