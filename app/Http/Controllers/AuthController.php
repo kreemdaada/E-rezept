@@ -12,12 +12,7 @@ class AuthController extends Controller
     // Zeige das Registrierungsformular an
     public function showRegistrationForm()
     {
-        // Standard-Krankenkassen-Daten
-        $defaultKrankenkassen = [
-            ['name' => 'AOK'],
-            ['name' => 'TK'],
-            ['name' => 'Barmer'],
-        ];
+        
 
         // Rollen abrufen
         $roles = Role::all();
