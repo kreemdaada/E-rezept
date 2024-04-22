@@ -17,6 +17,7 @@ class Patient extends Model
         'geburtsdatum',
         'adresse',
         'versicherungsnummer',
+        'krankenkasse',
         'prescription_id',
     ];
 

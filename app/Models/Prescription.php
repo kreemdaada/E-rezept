@@ -17,6 +17,8 @@ class Prescription extends Model
         'medikament',
         'diagnose',
         'patient_id',
+        'doctor_id',
+        'qr_code_path',
     ];
 
 

@@ -1,12 +1,32 @@
 <!-- resources/views/rezept/show.blade.php -->
 
-<h1>Verschreibung anzeigen</h1>
+@extends('layouts.app')
 
-<p>Name: {{ $prescription->name }}</p>
-<p>Vorname: {{ $prescription->vorname }}</p>
-<p>Versicherungsnummer: {{ $prescription->versicherungsnummer }}</p>
-<p>Krankenkasse: {{ $prescription->krankenkasse }}</p>
-<p>Medikament: {{ $prescription->medikament }}</p>
-<p>Diagnose: {{ $prescription->diagnose }}</p>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Verschreibung anzeigen') }}</div>
 
-<img src="{{ asset($prescription->qr_code_path) }}" alt="QR-Code">
+                    <div class="card-body">
+                        <p><strong>Name:</strong> {{ $prescription->name }}</p>
+                        <p><strong>Vorname:</strong> {{ $prescription->vorname }}</p>
+                        <p><strong>Versicherungsnummer:</strong> {{ $prescription->versicherungsnummer }}</p>
+                        <p><strong>Krankenkasse:</strong> {{ $prescription->krankenkasse }}</p>
+                        <p><strong>Medikament:</strong> {{ $prescription->medikament }}</p>
+                        <p><strong>Diagnose:</strong> {{ $prescription->diagnose }}</p>
+
+                        @if ($prescription->qr_code_path)
+                            <div class="text-center">
+                            <img src="{{ asset($prescription->qr_code_path) }}" alt="QR-Code">
+                            </div>
+                        @else
+                            <p class="text-center">QR-Code ist nicht verfügbar.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

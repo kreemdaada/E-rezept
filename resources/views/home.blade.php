@@ -13,6 +13,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
+                
                     @if (Auth::check())
                         <p>{{ __('Welcome, :name!', ['name' => Auth::user()->name]) }}</p>
                         @if (Auth::user()->role->name === 'Arzt')

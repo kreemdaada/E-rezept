@@ -16,7 +16,51 @@
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <!-- Weitere Navigationslinks oder Dropdown-Menüs können hier hinzugefügt werden -->
+                <!-- resources/views/partials/navbar.blade.php -->
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            @if (Auth::check())
+                <!-- Dynamische Links basierend auf Benutzerrolle -->
+                @if (Auth::user()->role->name === 'Arzt')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('prescriptions.create') }}">Neues Rezept anlegen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('patients.create') }}">Neuen Patienten anlegen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('prescriptions.index') }}">Alle Rezepte anzeigen</a>
+                    </li>
+                @endif
+
+                <!-- Logout Link -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            @else
+                <!-- Login und Registrierung Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    </li>
+                @endif
+            @endif
+        </ul>
+    </div>
+</nav>
+
             </div>
         </nav>
 

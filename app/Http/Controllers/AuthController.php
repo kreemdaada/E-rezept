@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Role;
@@ -12,13 +11,11 @@ class AuthController extends Controller
     // Zeige das Registrierungsformular an
     public function showRegistrationForm()
     {
-        
-
         // Rollen abrufen
         $roles = Role::all();
         
         // Registrierungsformular mit Rollen und Standard-Krankenkassen-Daten anzeigen
-        return view('auth.register', compact('defaultKrankenkassen'));
+        return view('auth.register', compact('roles'));
     }
 
     // Verarbeite die Registrierungsanfrage
@@ -32,20 +29,20 @@ class AuthController extends Controller
             'role' => 'required|exists:roles,name',
         ]);
 
-    // Benutzer erstellen
-    $role = Role::where('name', $request->role)->first();
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password),
-        'role_id' => $role->id, 
-    ]);
+        // Benutzer erstellen
+        $role = Role::where('name', $request->role)->first();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => $role->id, 
+        ]);
 
-    // Anmeldung des Benutzers
-    auth()->login($user);
+        // Anmeldung des Benutzers
+        Auth::login($user);
 
         // Weiterleitung je nach Benutzerrolle
-        return redirect('/login');
+        return redirect('/home');
     }
 
     // Zeige das Anmeldeformular an
@@ -72,5 +69,20 @@ class AuthController extends Controller
             // Ungültige Anmeldeinformationen
             return back()->withErrors(['email' => 'Invalid credentials']);
         }
+    }
+
+    // Logout Methode
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        // Invalidate the session to protect against session fixation
+        $request->session()->invalidate();
+
+        // Regenerate a new session token
+        $request->session()->regenerateToken();
+
+        // Redirect to login page
+        return redirect('/register');
     }
 }

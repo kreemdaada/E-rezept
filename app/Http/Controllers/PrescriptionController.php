@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\QrCode;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+
 
 class PrescriptionController extends Controller
 {
@@ -31,6 +34,7 @@ class PrescriptionController extends Controller
         return redirect('/login')->withErrors(['error' => 'Nicht autorisiert. Nur Ärzte können Rezepte erstellen.']);
     }
 
+    $doctor_id= Auth::id();
     $request->validate([
         'name' => 'required|string|max:255',
         'vorname' => 'required|string|max:255',
@@ -40,6 +44,7 @@ class PrescriptionController extends Controller
         'medikament' => 'required|string',
         'diagnose' => 'required|string',
     ]);
+
 
     $patient = Patient::where('versicherungsnummer', $request->versicherungsnummer)->first();
 
@@ -57,7 +62,9 @@ class PrescriptionController extends Controller
         'neue_termin' => $request->neue_termin,
         'medikament' => $request->medikament,
         'diagnose' => $request->diagnose,
-        'patient_id' => $patient->id,
+        'patient_id' => $patient->id, 
+        'doctor_id' => $doctor_id,
+        
     ]);
 
     return redirect()->route('prescriptions.show', ['id' => $prescription->id]);
@@ -70,16 +77,18 @@ class PrescriptionController extends Controller
 
         // Vorbereitung der Daten für den QR-Code
         $qrCodeData = [
-            'id' => $prescription->id,
             'name' => $prescription->name,
             'vorname' => $prescription->vorname,
             'versicherungsnummer' => $prescription->versicherungsnummer,
             'krankenkasse' => $prescription->krankenkasse,
-            'neue_termin' => $prescription->neue_termin,
             'medikament' => $prescription->medikament,
             'diagnose' => $prescription->diagnose,
         ];
 
+         // Logging der QR-Code-Daten
+        Log::info('QR Code Data:', $qrCodeData);
+
+        
         // Erstellung des QR-Codes
         $qrCode = new QrCode(json_encode($qrCodeData));
         $writer = new PngWriter();

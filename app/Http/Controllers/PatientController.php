@@ -37,7 +37,8 @@ class PatientController extends Controller
             'geburtsdatum' => 'required|date',
             'adresse' => 'required|string|max:255',
             'versicherungsnummer' => 'required|string|max:255|unique:patients,versicherungsnummer',
-            'krankenkasse' => 'required|string|max:255', // Hinzufügen der Validierung für die Krankenkasse
+            'krankenkasse' => 'required|string|max:255',
+            'prescription_id' => 'exists:prescriptions,id'
         ]);
     
         // Speichern der Daten in der Datenbank
@@ -48,7 +49,8 @@ class PatientController extends Controller
             'geburtsdatum' => $request->geburtsdatum,
             'adresse' => $request->adresse,
             'versicherungsnummer' => $request->versicherungsnummer,
-            'krankenkasse' => $request->krankenkasse, // Hinzufügen der Krankenkasse zum Speichern
+            'krankenkasse' => $request->krankenkasse,
+            'prescription_id' => $request->prescription_id
         ]);
     
         // Erfolgsnachricht oder Weiterleitung
