@@ -73,18 +73,13 @@ class PrescriptionController extends Controller
     return redirect()->route('prescriptions.show', ['id' => $prescription->id]);
 }
 
-    // Zeigt eine spezifische Verschreibung anhand ihrer ID
-    public function show($id)
-    {
-        $prescription = Prescription::findOrFail($id);
-    
-        // Überprüfe die Berechtigung des Benutzers
-        if (Auth::user()->role->name === 'Krankenkasse' || Auth::user()->role->name === 'Apotheke' || Auth::user()->role->name === 'Arzt') {
-            return view('rezept.show', compact('prescription'));
-        } else {
-            return redirect()->route('home')->with('error', 'Access Denied');
-        }
+   // Zeigt eine spezifische Verschreibung anhand ihrer ID
+public function show($id)
+{
+    $prescription = Prescription::findOrFail($id);
 
+    // Überprüfe die Berechtigung des Benutzers
+    if (Auth::user()->role->name === 'Krankenkasse' || Auth::user()->role->name === 'Apotheke' || Auth::user()->role->name === 'Arzt') {
         // Vorbereitung der Daten für den QR-Code
         $qrCodeData = [
             'name' => $prescription->name,
@@ -95,22 +90,24 @@ class PrescriptionController extends Controller
             'diagnose' => $prescription->diagnose,
         ];
 
-         // Logging der QR-Code-Daten
+        // Logging der QR-Code-Daten
         Log::info('QR Code Data:', $qrCodeData);
 
-        
         // Erstellung des QR-Codes
         $qrCode = new QrCode(json_encode($qrCodeData));
         $writer = new PngWriter();
         $qrCodeImage = $writer->write($qrCode)->getString();
-        
+
         // Speicherung des QR-Codes und Update des Pfads in der Datenbank
         $qrCodePath = 'qr-codes/qr-code-' . $prescription->id . '.png';
         file_put_contents(public_path($qrCodePath), $qrCodeImage);
         $prescription->update(['qr_code_path' => $qrCodePath]);
 
         return view('rezept.show', compact('prescription'));
+    } else {
+        return redirect()->route('home')->with('error', 'Access Denied');
     }
+}
 
     // Methode für das Scannen von QR-Codes (zeigt alle Verschreibungen)
     public function scan($id)
