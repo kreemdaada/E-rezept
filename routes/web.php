@@ -19,8 +19,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+Route::get('/home', function () {
+    return redirect('/'); // Redirect to another relevant page
+});
 // Rezept-Controller-Routen
 Route::post('/prescriptions', [PrescriptionController::class, 'store'])->name('prescriptions.store');
 Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
@@ -38,7 +39,7 @@ Route::get('/patients', [PatientController::class, 'index'])->name('patients.ind
 
 // Rezept-Suchen und -Scannen Routen
 Route::get('/rezepte-suchen', [PrescriptionController::class, 'search'])->name('prescriptions.search');
-Route::get('scan/{id}', [PrescriptionController::class, 'scan'])->name('prescriptions.scan');
+#Route::get('scan/{id}', [PrescriptionController::class, 'scan'])->name('prescriptions.scan');
 #############################################################################################
 
 Route::get('/dashboard-arzt', [ArztDashboardController::class, 'index'])->name('dashboard-arzt');

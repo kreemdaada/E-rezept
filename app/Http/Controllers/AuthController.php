@@ -20,7 +20,7 @@ class AuthController extends Controller
             case 'Apotheke':
                 return '/dashboard-apotheke'; // Dashboard path for Apotheke
             default:
-                return '/home'; // Default redirection
+                return '/'; // Default redirection
         }
     }
 
@@ -76,6 +76,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/register');
+        return redirect('/');
     }
 }

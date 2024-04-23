@@ -28,7 +28,7 @@
                             @endphp
                             <ul class="list-group">
                                 @if ($prescriptionId)
-                                    <li><a class="list-group-item list-group-item-action" href="{{ route('prescriptions.scan', ['id' => $prescriptionId]) }}">Rezepte scannen</a></li>
+                                    <li><a class="list-group-item list-group-item-action" href="{{ route('prescriptions.show', ['id' => $prescriptionId]) }}">Rezepte scannen</a></li>
                                 @else
                                     <li class="list-group-item">{{ __('No prescriptions available to scan.') }}</li>
                                 @endif
@@ -36,7 +36,13 @@
                             </ul>
                         @endif
                     @else
-                        <p>{{ __('Please log in to view this page.') }}</p>
+                    <form action="{{ route('logout') }}" method="POST" style="display: none;" id="logout-form">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+
                     @endif
 
                     <p>{{ __('Current Date and Time: :date', ['date' => now()->format('d.m.Y H:i:s')]) }}</p>
