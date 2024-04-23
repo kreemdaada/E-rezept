@@ -69,6 +69,9 @@
 
                             <button type="submit" class="btn btn-primary">{{ __('Neuen Patienten anlegen') }}</button>
                         </form>
+                        <div class="mt-3">
+                            <a href="{{ route('home') }}" class="btn btn-secondary">Zurück</a>
+                        </div>
                     </div>
                 </div>
             </div>

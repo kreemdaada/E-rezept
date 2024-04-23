@@ -44,5 +44,8 @@
             </tbody>
         </table>
     @endif
+                 <div class="mt-3">
+                    <a href="{{ route('home') }}" class="btn btn-secondary">Zurück</a>
+                </div>
 </div>
 @endsection

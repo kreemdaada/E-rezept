@@ -77,6 +77,13 @@ class PrescriptionController extends Controller
     public function show($id)
     {
         $prescription = Prescription::findOrFail($id);
+    
+        // Überprüfe die Berechtigung des Benutzers
+        if (Auth::user()->role->name === 'Krankenkasse' || Auth::user()->role->name === 'Apotheke' || Auth::user()->role->name === 'Arzt') {
+            return view('rezept.show', compact('prescription'));
+        } else {
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
 
         // Vorbereitung der Daten für den QR-Code
         $qrCodeData = [

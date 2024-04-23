@@ -9,6 +9,7 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
+        $this->call(UsersTableSeeder::class);
         // Benutzer mit verschiedenen Rollen erstellen
         $arzt = User::create([
             'name' => 'Dr. Max Mustermann',

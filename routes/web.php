@@ -7,6 +7,15 @@ use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/patients', 'PatientController@index');
+    Route::get('/prescriptions', 'PrescriptionController@index');
+    // Weitere geschützte Routen hier
+});
+
+
+
+
 // Benutzerregistrierung
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -19,9 +28,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
-Route::get('/home', function () {
-    return redirect('/'); // Redirect to another relevant page
-});
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
 // Rezept-Controller-Routen
 Route::post('/prescriptions', [PrescriptionController::class, 'store'])->name('prescriptions.store');
 Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
@@ -46,9 +55,4 @@ Route::get('/dashboard-arzt', [ArztDashboardController::class, 'index'])->name('
 Route::get('/dashboard-apotheke', [ApothekeDashboardController::class, 'index'])->name('dashboard-apotheke');
 Route::get('/dashboard-krankenkasse', [KrankenkasseDashboardController::class, 'index'])->name('dashboard-krankenkasse');
 
-
-// Existing route with ID
 Route::get('scan/{id}', [PrescriptionController::class, 'scan'])->name('prescriptions.scan');
-
-// Optional: Adding a route that does not require an ID, if your business logic allows it
-#Route::get('scan/new', [PrescriptionController::class, 'scanNew'])->name('prescriptions.scan.new');

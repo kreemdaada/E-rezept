@@ -27,4 +27,10 @@ class Prescription extends Model
     return $this->hasOne(Patient::class);
 }
 
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id', 'id');
+}
+
+
 }

@@ -7,15 +7,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Zeige die Startseite an.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
-    {
-        $prescriptionId = Prescription::where('doctor_id', Auth::id())->first()->id ?? null;
-        return view('home', compact('prescriptionId'));
-    }
-    
+{
+    $prescription = Prescription::where('doctor_id', Auth::id())->first();
+    $prescriptionId = $prescription ? $prescription->id : null;
+    return view('home', compact('prescriptionId'));
 }
+}
+

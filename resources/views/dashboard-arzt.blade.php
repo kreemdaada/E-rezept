@@ -1,3 +1,9 @@
+@php
+   
+    $prescriptionId = Auth::user()->prescriptions->first()->id ?? null;
+@endphp
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -9,7 +15,7 @@
                 <div class="card-body">
                     @if (Auth::check())  {{-- Check if user is logged in --}}
                         <p class="lead">{{ __('Welcome, :name!', ['name' => Auth::user()->name]) }}</p>
-                        <div class="list-group mb-4">
+                    <div class="list-group mb-4">
                             <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{{ route('prescriptions.create') }}">
                                 Neues Rezept anlegen
                                 <span class="badge badge-primary badge-pill">+</span>
@@ -18,26 +24,26 @@
                                 Neuen Patienten anlegen
                                 <span class="badge badge-primary badge-pill">+</span>
                             </a>
-                            @php
-                                $prescriptionId = Auth::user()->prescriptions->first()->id ?? null;
-                            @endphp
-                            @if ($prescriptionId)
-                                <a class="list-group-item list-group-item-action" href="{{ route('prescriptions.show', ['id' => $prescriptionId]) }}">Rezepte scannen</a>
-                            @else
-                                <div class="list-group-item">{{ __('No prescriptions available to scan.') }}</div>
+                            <ul class="list-group">
+                            @if($prescriptionId)
+                                <li><a class="list-group-item list-group-item-action" href="{{ route('prescriptions.scan', ['id' => $prescriptionId]) }}">Rezepte scannen</a></li>
                             @endif
-                            <a class="list-group-item list-group-item-action" href="{{ route('patients.index') }}">Patienten anzeigen</a> {{-- Correctly pointing to the patient index route --}}
-                        </div>
-                    @else
-                        <p>Please log in to view this page.</p>
-                    @endif
-                    <div class="mt-4">
-                        <form action="{{ route('logout') }}" method="POST" style="display: none;" id="logout-form">
-                            @csrf
+                            </ul>
+                            <a class="list-group-item list-group-item-action" href="{{ route('prescriptions.index') }}">Alle Rezepte anzeigen</a>
+                            </li>
+                            <li class="list-group-item list-group-item-action">
+                            <a class="nav-link" href="{{ route('patients.index') }}">Alle Patienten anzeigen</a>
+                            </li>
+
+                           @endif
+                    <div class="mb-4">
+                        <a href="{{ route('logout') }}" 
+                           onclick="event.preventDefault(); 
+                           document.getElementById('logout-form').submit();"
+                           class="btn btn-danger">{{ __('Logout') }}</a>
+                           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
                         </form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger">
-                            Logout
-                        </a>
                     </div>
                 </div>
             </div>

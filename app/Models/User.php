@@ -24,9 +24,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
     
+
+
     public function prescriptions()
-{
-    return $this->hasMany(Prescription::class);
-}
+    {
+        return $this->hasMany(Prescription::class, 'user_id', 'id');
+    }
+
 
 }
