@@ -21,6 +21,8 @@ class Patient extends Model
         'prescription_id',
     ];
 
+    protected $dates = ['geburtsdatum'];
+
     public function prescription()
     {
         return $this->belongsTo(Prescription::class);

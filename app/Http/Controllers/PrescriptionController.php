@@ -24,6 +24,9 @@ class PrescriptionController extends Controller
     // Zeigt das Formular zum Erstellen einer neuen Verschreibung
     public function create()
     {
+        if (!Auth::check() || Auth::user()->role->name !== 'Arzt') {
+            return redirect('/login')->withErrors(['error' => 'Nicht autorisiert. Nur Ärzte können Rezepte anlegen.']);
+        }
         return view('rezept.create');
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\DB;
 
 class PatientController extends Controller
 {
+
+    public function index(Request $request)
+{
+    $query = Patient::query();
+
+    // Überprüfung, ob ein Geburtsdatum als Suchbegriff übergeben wurde
+    if ($request->has('geburtsdatum') && $request->geburtsdatum) {
+        $query->whereDate('geburtsdatum', $request->geburtsdatum);
+    }
+
+    // Patienten abrufen
+    $patients = $query->get();
+
+    // Daten an die View übergeben
+    return view('patients.store', compact('patients'));
+}
 
     /**
      * Zeigt das Formular zur Erstellung eines neuen Patienten an.
@@ -18,7 +34,7 @@ class PatientController extends Controller
     public function create()
     {
         $krankenkassen = DB::table('insurance_numbers')->get();
-        return view('patienten.create', ['krankenkassen' => $krankenkassen]);
+        return view('patients.create', ['krankenkassen' => $krankenkassen]);
     }
 
     /**
@@ -54,7 +70,7 @@ class PatientController extends Controller
         ]);
     
         // Erfolgsnachricht oder Weiterleitung
-        return redirect()->route('home')->with('success', 'Patient erfolgreich erstellt.');
+        return redirect()->route('patients.index')->with('success', 'Patient erfolgreich erstellt.');
     }
     
 }

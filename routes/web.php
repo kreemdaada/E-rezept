@@ -26,15 +26,28 @@ Route::post('/prescriptions', [PrescriptionController::class, 'store'])->name('p
 Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
 Route::get('/prescriptions/create', [PrescriptionController::class, 'create'])->name('prescriptions.create');
 Route::get('/prescriptions/{id}', [PrescriptionController::class, 'show'])->name('prescriptions.show');
+#############################################################################################
 
-// Patienten-Controller-Routen
+// Route to show the form to create a new patient
 Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+// Route to store the new patient data
 Route::post('/patients', [PatientController::class, 'store'])->name('patients.store');
+// Optional: Route to show all patients
+Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
+#############################################################################################
 
 // Rezept-Suchen und -Scannen Routen
 Route::get('/rezepte-suchen', [PrescriptionController::class, 'search'])->name('prescriptions.search');
+Route::get('scan/{id}', [PrescriptionController::class, 'scan'])->name('prescriptions.scan');
+#############################################################################################
 
+Route::get('/dashboard-arzt', [ArztDashboardController::class, 'index'])->name('dashboard-arzt');
+Route::get('/dashboard-apotheke', [ApothekeDashboardController::class, 'index'])->name('dashboard-apotheke');
+Route::get('/dashboard-krankenkasse', [KrankenkasseDashboardController::class, 'index'])->name('dashboard-krankenkasse');
+
+
+// Existing route with ID
 Route::get('scan/{id}', [PrescriptionController::class, 'scan'])->name('prescriptions.scan');
 
-// Patienten-Suchen Route
-Route::get('/patienten-suchen', [PatientController::class, 'search'])->name('patients.search');
+// Optional: Adding a route that does not require an ID, if your business logic allows it
+#Route::get('scan/new', [PrescriptionController::class, 'scanNew'])->name('prescriptions.scan.new');
