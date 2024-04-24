@@ -28,7 +28,7 @@
                 </div>
                  <!-- Zurück-Button -->
                  <div class="mt-3">
-                    <a href="{{ route('home') }}" class="btn btn-secondary">Zurück</a>
+                    <a href="{{ route('dashboard-krankenkasse') }}" class="btn btn-secondary">Zurück</a>
                 </div>
             </div>
         </div>

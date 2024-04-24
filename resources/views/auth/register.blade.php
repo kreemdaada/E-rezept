@@ -99,7 +99,7 @@
 
     <div class="container mt-5">
         <h3 class="text-center mb-4">Ablauf des E-Rezept-Prozesses</h3>
-        <p class="text-center">Das E-Rezept ist ein elektronisches Rezept, das von einem Arzt ausgestellt und elektronisch an eine Apotheke oder Krankenkasse übermittelt wird. Hier ist ein vereinfachter Ablauf des Prozesses:</p>
+       <h5><p class="text-center">Das E-Rezept ist ein elektronisches Rezept, das von einem Arzt ausgestellt und elektronisch an eine Apotheke oder Krankenkasse übermittelt wird. Hier ist ein vereinfachter Ablauf des Prozesses:</p></h5>
         <ul class="list-group list-group-flush mx-auto" style="max-width: 800px;">
             <li class="list-group-item bg-light mb-3">
                 <h5>Arztbesuch:</h5>
