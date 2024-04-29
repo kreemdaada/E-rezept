@@ -25,6 +25,15 @@ class Patient extends Model
 
     public function prescription()
     {
-        return $this->belongsTo(Prescription::class);
+        return $this->hasMany(Prescription::class);
+    }
+    public function videoanrufe()
+    {
+        return $this->hasMany(Videoanruf::class);
+    }
+
+    public function Krankmeldungen()
+    {
+        return $this->hasMany(Krankmeldungen::class);
     }
 }

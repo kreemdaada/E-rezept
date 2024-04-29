@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth'])->group(function () {
     Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
     Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
-    // Weitere geschützte Routen hier
+    Route::get('/krankmeldungen', [KrankmeldungController::class, 'index'])->name('krankmeldungen.index');
+    Route::get('/krankmeldungen/create', [KrankmeldungController::class, 'create'])->name('krankmeldungen.create');
+    Route::post('/krankmeldungen', [KrankmeldungController::class, 'store'])->name('krankmeldungen.store');
+    Route::get('/krankmeldungen/{krankmeldung}', [KrankmeldungController::class, 'show'])->name('krankmeldungen.show');
+    Route::get('/krankmeldungen/{krankmeldung}/edit', [KrankmeldungController::class, 'edit'])->name('krankmeldungen.edit');
+    Route::put('/krankmeldungen/{krankmeldung}', [KrankmeldungController::class, 'update'])->name('krankmeldungen.update');
+    Route::delete('/krankmeldungen/{krankmeldung}', [KrankmeldungController::class, 'destroy'])->name('krankmeldungen.destroy');
 });
 
 // Benutzerregistrierung
@@ -44,3 +50,7 @@ Route::get('/dashboard-apotheke', [ApothekeDashboardController::class, 'index'])
 Route::get('/dashboard-krankenkasse', [KrankenkasseDashboardController::class, 'index'])->name('dashboard-krankenkasse');
 
 Route::get('scan/{id}', [PrescriptionController::class, 'scan'])->name('prescriptions.scan');
+###################################################################################################
+
+
+############################################################################################################   

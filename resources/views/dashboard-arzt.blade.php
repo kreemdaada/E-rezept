@@ -44,7 +44,12 @@
                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                         </form>
+
                     </div>
+                    // arzt-dashboard.blade.php
+
+<a class="list-group-item list-group-item-action" href="{{ route('krankmeldungen.create') }}">Neue Krankmeldung anlegen</a>
+
                 </div>
             </div>
         </div>
