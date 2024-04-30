@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\VideoanrufController;
 Route::middleware(['auth'])->group(function () {
     Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
     Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions.index');
@@ -17,6 +17,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/krankmeldungen/{krankmeldung}/edit', [KrankmeldungController::class, 'edit'])->name('krankmeldungen.edit');
     Route::put('/krankmeldungen/{krankmeldung}', [KrankmeldungController::class, 'update'])->name('krankmeldungen.update');
     Route::delete('/krankmeldungen/{krankmeldung}', [KrankmeldungController::class, 'destroy'])->name('krankmeldungen.destroy');
+    Route::get('/videoanrufe', [VideoanrufController::class, 'index'])->name('videoanrufe.index');
+    Route::post('/videoanrufe', [VideoanrufController::class, 'create'])->name('videoanrufe.create');
+    Route::post('/videoanrufe/{id}/issue_sick_note', [VideoanrufController::class, 'issueSickNote'])->name('videoanrufe.issue_sick_note');
 });
 
 // Benutzerregistrierung
