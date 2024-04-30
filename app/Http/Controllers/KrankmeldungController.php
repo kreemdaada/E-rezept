@@ -28,7 +28,7 @@ class KrankmeldungController extends Controller
         $patients = Patient::all();
 
         // Die View 'create.blade.php' mit den Patienten anzeigen
-        return view('krankmeldungen.create', compact('patients'));
+        return view('krankmeldung.create', compact('patients'));
     }
 
     // Neue Krankmeldung erstellen
@@ -59,7 +59,7 @@ class KrankmeldungController extends Controller
     public function show(Krankmeldung $krankmeldung) // Parameter-Typ geändert
     {
         // Die View 'show.blade.php' mit der spezifischen Krankmeldung anzeigen
-        return view('krankmeldungen.show', compact('krankmeldung'));
+        return view('krankmeldung.show', compact('krankmeldung'));
     }
 
     // Formular zur Bearbeitung einer Krankmeldung anzeigen
@@ -69,7 +69,7 @@ class KrankmeldungController extends Controller
         $patients = Patient::all();
 
         // Die View 'edit.blade.php' mit der spezifischen Krankmeldung und den Patienten anzeigen
-        return view('krankmeldungen.edit', compact('krankmeldung', 'patients'));
+        return view('krankmeldung.edit', compact('krankmeldung', 'patients'));
     }
 
     // Krankmeldung aktualisieren
@@ -87,7 +87,7 @@ class KrankmeldungController extends Controller
         $krankmeldung->update($request->all());
 
         // Erfolgsmeldung anzeigen und zur Index-Seite weiterleiten
-        return redirect()->route('krankmeldungen.index')
+        return redirect()->route('krankmeldung.index')
             ->with('success', 'Krankmeldung erfolgreich aktualisiert.');
     }
 
@@ -98,7 +98,7 @@ class KrankmeldungController extends Controller
         $krankmeldung->delete();
 
         // Erfolgsmeldung anzeigen und zur Index-Seite weiterleiten
-        return redirect()->route('krankmeldungen.index')
+        return redirect()->route('krankmeldung.index')
             ->with('success', 'Krankmeldung erfolgreich gelöscht.');
     }
 }

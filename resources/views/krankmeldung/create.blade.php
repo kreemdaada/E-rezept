@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <!-- Überprüfung, ob der Benutzer die erforderliche Rolle hat -->
                     @if(Auth::check() && Auth::user()->role->name === 'Arzt')
-                    <form action="{{ route('krankmeldung.store') }}" method="POST"> <!-- Angepasst nach Routennamen -->
+                    <form action="{{ route('krankmeldungen.store') }}" method="POST"> <!-- Angepasst nach Routennamen -->
                         @csrf
                         <div class="form-group">
                             <label for="patient_id">Patient:</label>
